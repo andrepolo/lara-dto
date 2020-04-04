@@ -1,0 +1,10 @@
+<?php
+
+namespace _namespace_;
+
+use AndrePolo\DataTransfer\DataTransferCollection;
+
+class _classname_ extends DataTransferCollection
+{
+    _itemclass_
+}
