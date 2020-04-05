@@ -26,5 +26,35 @@ return [
 
     'use_setter' => true,
 
-    'use_getter' => true
+    'use_getter' => true,
+
+    /*
+     |-------------------------------------------------------------------------
+     | Primitives
+     |-------------------------------------------------------------------------
+     |
+     | Those are the property types that will be considered as 'not to be
+     | handled as DataTransferItem or DatatransferCollection classes'.
+     |
+     | @see property declaration with @var in PHP-Doc-Block or checkout the
+     | \AndrePolo\DataTransfer\Tests\ExampleTransferItem.php
+     |
+     */
+
+    'primitives' => [
+        '',
+        'bool',
+        'boolean',
+        'int',
+        'integer',
+        'number',
+        'float',
+        'double',
+        'string',
+        'array',
+        'object',
+        'resource',
+        'mixed',
+        'callable',
+    ],
 ];

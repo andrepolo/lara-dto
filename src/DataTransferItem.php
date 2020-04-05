@@ -6,6 +6,7 @@ use Illuminate\{Contracts\Container\BindingResolutionException,
     Contracts\Support\Arrayable,
     Contracts\Support\Jsonable,
     Support\Arr,
+    Support\Facades\Config,
     Support\Str};
 use kamermans\Reflection\DocBlock;
 use ReflectionClass, ReflectionException, ReflectionProperty;
@@ -16,26 +17,6 @@ use ReflectionClass, ReflectionException, ReflectionProperty;
  */
 abstract class DataTransferItem implements Arrayable, Jsonable
 {
-    /**
-     * @var array
-     */
-    protected $primitives = [
-        '',
-        'bool',
-        'boolean',
-        'int',
-        'integer',
-        'number',
-        'float',
-        'double',
-        'string',
-        'array',
-        'object',
-        'resource',
-        'mixed',
-        'callable',
-    ];
-
     /**
      * @return array
      * @throws ReflectionException
@@ -175,13 +156,17 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      */
     protected function resolveClass($name)
     {
+        if (is_null($name) || in_array($name, $this->config('primitives'))) {
+            return $name;
+        }
+
         if (app()->bound($name)) {
             return app()->make($name);
         }
 
         if (!class_exists($name) && !Str::contains($name, '\\')) {
             $name = implode('\\', [
-                config()->get('datatransfer.class_namespace'),
+                $this->config('class_namespace'),
                 $name
             ]);
         }
@@ -199,7 +184,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      */
     protected function isPrimitive($var)
     {
-        return is_null($var) || in_array($var, $this->primitives);
+        return is_null($var) || in_array($var, $this->config('primitives'));
     }
 
     /**
@@ -214,11 +199,41 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     }
 
     /**
+     * @param ReflectionProperty $item
+     * @return DocBlock
+     */
+    protected function getDocBlock(ReflectionProperty $item)
+    {
+        if (!$item->getDocComment()) {
+            return null;
+        }
+
+        return (new DocBlock($item->getDocComment()));
+    }
+
+    /**
+     * @param string $name
+     *
+     * @throws ReflectionException
+     */
+    protected function attributeIsPrivate(string $name)
+    {
+        $attribute = new ReflectionProperty($this, $name);
+
+        return $attribute->isPrivate();
+    }
+
+    protected function config(string $key, $default = null)
+    {
+        return Config::get("datatransfer.{$key}", $default);
+    }
+
+    /**
      * @return mixed
      */
     protected function useGetter()
     {
-        return config()->get('datatransfer.use_getter', false);
+        return $this->config('use_getter', false);
     }
 
     /**
@@ -226,6 +241,6 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      */
     protected function useSetter()
     {
-        return config()->get('datatransfer.use_setter', false);
+        return $this->config('use_setter', false);
     }
 }
