@@ -78,6 +78,44 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     }
 
     /**
+     * @param bool $publicPropertiesOnly
+     *
+     * @return array
+     * @throws ReflectionException
+     */
+    public function schema($publicPropertiesOnly = true)
+    {
+        $attributes = collect($this->getReplectionProperties());
+
+        if ($publicPropertiesOnly) {
+            $attributes = $attributes->filter(function (ReflectionProperty $item) {
+                return $item->isPublic();
+            });
+        }
+        return $attributes->mapWithKeys(function(ReflectionProperty $item) {
+            return [$item->getName() => optional($this->getDocBlock($item))->getTag('var')];
+        })->mapWithKeys(function ($item, $name) {
+            $class = $this->resolveClass($item);
+            $key = $this->isTransfer($class) ? ltrim($item, '\\') . ': ' . $name : $name;
+            $schema = $this->isTransfer($class) ? $class->schema() : $item;
+
+            return [$key => $schema];
+        })->toArray();
+    }
+
+    /**
+     * @param int $options
+     * @param bool $publicPropertiesOnly
+     *
+     * @return false|string
+     * @throws ReflectionException
+     */
+    public function jsonSchema($options = 0, $publicPropertiesOnly = true)
+    {
+        return json_encode($this->schema($publicPropertiesOnly), $options);
+    }
+
+    /**
      * @param mixed $item
      * @return bool
      */
@@ -93,9 +131,9 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     protected function getAttributes()
     {
         return collect($this->getReplectionProperties())->mapWithKeys(function (ReflectionProperty $item) {
-            return [$item->getName() => (new DocBlock($item->getDocComment()))->getTag('var')];
+            return [$item->getName() => $item->isPublic() ? optional($this->getDocBlock($item))->getTag('var') : null];
         })->filter(function ($item) {
-            return !$this->isPrimitive($item);
+            return !is_null($item) && !$this->isPrimitive($item);
         })->toArray();
     }
 
@@ -133,6 +171,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      * @param $value
      *
      * @return |null
+     * @throws ReflectionException
      */
     protected function setAttribute(string $name, $value)
     {
@@ -140,6 +179,10 @@ abstract class DataTransferItem implements Arrayable, Jsonable
 
         if (method_exists($this, $methodName) && $this->useSetter()) {
             return $this->{$methodName}($value);
+        }
+
+        if ($this->attributeIsPrivate($name)) {
+            return null;
         }
 
         if (property_exists($this, $name)) {

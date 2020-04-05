@@ -116,7 +116,7 @@ class DataTransferItemTest extends TestCase
 
         $item->fromArray($data);
 
-        $this->assertInstanceOf(DataTransferItem::class, $item->classNameItem);
+        $this->assertInstanceOf(ExampleTestTransferItem::class, $item->classNameItem);
         $this->assertEquals(1, $item->classNameItem->a);
         $this->assertEquals(2, $item->classNameItem->b);
         $this->assertEquals(3, $item->classNameItem->c);
@@ -212,5 +212,89 @@ class DataTransferItemTest extends TestCase
         $this->assertNull($item->nullProperty);
         $this->assertEquals('test string', $item->stringProperty);
         $this->assertEquals(['foo','bar'], $item->arrayProperty);
+    }
+
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
+    public function schema_contains_the_correct_properties()
+    {
+        $item = new ExampleTransferItem();
+
+        $schema = $item->schema();
+
+        $this->assertArrayHasKey('nullProperty', $schema);
+        $this->assertEquals('null', Arr::get($schema, 'nullProperty'));
+        $this->assertArrayHasKey('stringProperty', $schema);
+        $this->assertEquals('string', Arr::get($schema, 'stringProperty'));
+        $this->assertArrayHasKey('arrayProperty', $schema);
+        $this->assertEquals('array', Arr::get($schema, 'arrayProperty'));
+        $this->assertArrayHasKey('casted', $schema);
+        $this->assertEquals('array', Arr::get($schema, 'casted'));
+        $this->assertArrayHasKey('mapped', $schema);
+        $this->assertEquals('array', Arr::get($schema, 'mapped'));
+
+        $key = 'AndrePolo\DataTransfer\Tests\ExampleTestTransferItem: fqcnItem';
+        $this->assertArrayHasKey($key, $schema);
+        $fqcnItem = Arr::get($schema, $key);
+        $this->assertArrayHasKey('a', $fqcnItem);
+        $this->assertEquals('string', Arr::get($fqcnItem, 'a'));
+        $this->assertArrayHasKey('b', $fqcnItem);
+        $this->assertEquals('string', Arr::get($fqcnItem, 'b'));
+        $this->assertArrayHasKey('c', $fqcnItem);
+        $this->assertEquals('array', Arr::get($fqcnItem, 'c'));
+
+        $key = 'ExampleTestTransferItem: classNameItem';
+        $this->assertArrayHasKey($key, $schema);
+        $classNameItem = Arr::get($schema, $key);
+        $this->assertArrayHasKey('a', $classNameItem);
+        $this->assertEquals('string', Arr::get($classNameItem, 'a'));
+        $this->assertArrayHasKey('b', $classNameItem);
+        $this->assertEquals('string', Arr::get($classNameItem, 'b'));
+        $this->assertArrayHasKey('c', $classNameItem);
+        $this->assertEquals('array', Arr::get($classNameItem, 'c'));
+
+        // public properties exist, so lets check the non existence of protected and private properties
+        $this->assertArrayNotHasKey('privateProperty', $schema);
+        $this->assertArrayNotHasKey('protectedProperty', $schema);
+    }
+
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
+    public function schema_contains_non_public_properties_as_well()
+    {
+        $item = new ExampleTransferItem();
+
+        $schema = $item->schema(false);
+
+        $this->assertArrayHasKey('privateProperty', $schema);
+        $this->assertArrayHasKey('protectedProperty', $schema);
+    }
+
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
+    public function from_array_works_correct_without_doc_blocks()
+    {
+        $item = new ExampleWithoutDocBlocks();
+
+        $data = [
+            'casted' => 1,
+            'mapped' => [
+                'foo',
+                'bar'
+            ]
+        ];
+
+        $item->fromArray($data);
+
+        $this->assertEquals(1, $item->casted);
+        $this->assertIsArray($item->mapped);
+        $this->assertContains('foo', $item->mapped);
+        $this->assertContains('bar', $item->mapped);
     }
 }
