@@ -3,6 +3,7 @@
 namespace AndrePolo\DataTransfer\Tests;
 
 use AndrePolo\DataTransfer\DataTransferItem;
+use AndrePolo\DataTransfer\Exceptions\TypeMismatchException;
 use Illuminate\Support\Arr;
 
 /**
@@ -87,8 +88,8 @@ class DataTransferItemTest extends TestCase
 
         $data = [
             'fqcnItem' => [
-                'a' => 1,
-                'b' => 2,
+                'a' => '1',
+                'b' => '2',
                 'c' => 3,
             ]
         ];
@@ -108,8 +109,8 @@ class DataTransferItemTest extends TestCase
 
         $data = [
             'classNameItem' => [
-                'a' => 1,
-                'b' => 2,
+                'a' => '1',
+                'b' => '2',
                 'c' => 3,
             ]
         ];
@@ -245,7 +246,7 @@ class DataTransferItemTest extends TestCase
         $this->assertArrayHasKey('c', $fqcnItem);
         $this->assertEquals('array', Arr::get($fqcnItem, 'c'));
 
-        $key = 'ExampleTestTransferItem: classNameItem';
+        $key = 'AndrePolo\DataTransfer\Tests\ExampleTestTransferItem: classNameItem';
         $this->assertArrayHasKey($key, $schema);
         $classNameItem = Arr::get($schema, $key);
         $this->assertArrayHasKey('a', $classNameItem);
@@ -296,5 +297,53 @@ class DataTransferItemTest extends TestCase
         $this->assertIsArray($item->mapped);
         $this->assertContains('foo', $item->mapped);
         $this->assertContains('bar', $item->mapped);
+    }
+
+    /**
+     * @test
+     * @throws \ReflectionException
+     */
+    public function from_array_works_correct_without_doc_blocks_in_strict_mode()
+    {
+        $item = new ExampleWithEmptyDocBlocks();
+
+        $data = [
+            'casted' => 1,
+            'mapped' => [
+                'foo',
+                'bar'
+            ]
+        ];
+
+        $item->fromArray($data, true);
+
+        $this->assertEquals(1, $item->casted);
+        $this->assertIsArray($item->mapped);
+        $this->assertContains('foo', $item->mapped);
+        $this->assertContains('bar', $item->mapped);
+    }
+
+    /**
+     * @test
+     */
+    public function an_excetion_is_thrown_when_data_type_not_match()
+    {
+        try {
+            $item = new ExampleTransferItem();
+
+            $array = [
+                'nullProperty' => null,
+                'stringProperty' => true,
+                'arrayProperty' => 'string'
+            ];
+
+            $item->fromArray($array, true);
+
+            $this->fail('expected TypeMismatchException has never been thrown');
+        }
+        catch (TypeMismatchException $exception) {
+            $this->expectNotToPerformAssertions();
+        }
+
     }
 }

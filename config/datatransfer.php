@@ -42,12 +42,10 @@ return [
      */
 
     'primitives' => [
-        '',
         'bool',
         'boolean',
         'int',
         'integer',
-        'number',
         'float',
         'double',
         'string',
@@ -57,4 +55,20 @@ return [
         'mixed',
         'callable',
     ],
+
+    /*
+     |-------------------------------------------------------------------------
+     | Strict
+     |-------------------------------------------------------------------------
+     | This option indicates whether filing items from array or json should
+     | only be possible when the corresponding values match to what is definded
+     | in the doc block
+     |
+     | for example: if you have set @var array in your doc block and you try to
+     | pass a string, with:
+     | strict: true --> it will not be possible
+     | strict: false --> it will be possible
+     */
+
+    'strict' => false
 ];

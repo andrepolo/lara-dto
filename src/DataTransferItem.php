@@ -2,10 +2,12 @@
 
 namespace AndrePolo\DataTransfer;
 
+use AndrePolo\DataTransfer\Exceptions\TypeMismatchException;
 use Illuminate\{Contracts\Container\BindingResolutionException,
     Contracts\Support\Arrayable,
     Contracts\Support\Jsonable,
     Support\Arr,
+    Support\Collection,
     Support\Facades\Config,
     Support\Str};
 use kamermans\Reflection\DocBlock;
@@ -23,12 +25,10 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      */
     public function toArray()
     {
-        return collect($this->getReplectionProperties())->filter(function (ReflectionProperty $item) {
-            return $item->isPublic();
-        })->mapWithKeys(function(ReflectionProperty $item) {
-            return [$item->getName() => $this->getAttribute($item->getName())];
-        })->map(function ($item) {
-            return $this->isTransfer($item) ? $item->toArray() : $item;
+        return $this->getAttributes()->filter(function (AttributeDefinition $item) {
+            return $item->access === 'public';
+        })->mapWithKeys(function(AttributeDefinition $item) {
+            return [$item->name => !is_null($item->class) ? $item->class->toArray() : $this->getAttribute($item->name)];
         })->toArray();
     }
 
@@ -36,17 +36,23 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      * @param array $data
      * @return $this
      * @throws ReflectionException
+     * @throws TypeMismatchException
      */
-    public function fromArray(array $data)
+    public function fromArray(array $data, $strict = null)
     {
+        /* @var AttributeDefinition[] $attributes */
         $attributes = $this->getAttributes();
 
-        collect($data)->each(function ($value, $name) use ($attributes) {
-            if (Arr::has($attributes, $name)) {
-                $class = $this->resolveClass(Arr::get($attributes, $name));
-                if (!is_null($class)) {
-                    $value = $class->fromArray($value ?? []);
-                }
+        collect($data)->each(function ($value, $name) use ($attributes, $strict) {
+            /** @var AttributeDefinition $attribute */
+            $attribute = Arr::get($attributes, $name);
+
+            if ($this->strict($strict) && !$this->checkType($attribute, $value)) {
+                throw new TypeMismatchException($attribute->var . ' does not match given type \'' . gettype($value) .'\'');
+            }
+
+            if (!is_null($attribute->class)) {
+                $value = $attribute->class->fromArray($value, $strict);
             }
 
             $this->setAttribute($name, $value);
@@ -71,6 +77,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      *
      * @return DataTransferItem
      * @throws ReflectionException
+     * @throws TypeMismatchException
      */
     public function fromJson($json)
     {
@@ -85,19 +92,16 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      */
     public function schema($publicPropertiesOnly = true)
     {
-        $attributes = collect($this->getReplectionProperties());
+        $attributes = $this->getAttributes();
 
         if ($publicPropertiesOnly) {
-            $attributes = $attributes->filter(function (ReflectionProperty $item) {
-                return $item->isPublic();
+            $attributes = $attributes->filter(function (AttributeDefinition $item) {
+                return $item->access === 'public';
             });
         }
-        return $attributes->mapWithKeys(function(ReflectionProperty $item) {
-            return [$item->getName() => optional($this->getDocBlock($item))->getTag('var')];
-        })->mapWithKeys(function ($item, $name) {
-            $class = $this->resolveClass($item);
-            $key = $this->isTransfer($class) ? ltrim($item, '\\') . ': ' . $name : $name;
-            $schema = $this->isTransfer($class) ? $class->schema() : $item;
+        return $attributes->mapWithKeys(function(AttributeDefinition $item) {
+            $key = !is_null($item->class) ? get_class($item->class) . ': ' . $item->name : $item->name;
+            $schema = !is_null($item->class) ? $item->class->schema() : $item->var;
 
             return [$key => $schema];
         })->toArray();
@@ -125,23 +129,21 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     }
 
     /**
-     * @return mixed
+     * @return Collection
      * @throws ReflectionException
      */
     protected function getAttributes()
     {
-        return collect($this->getReplectionProperties())->mapWithKeys(function (ReflectionProperty $item) {
-            return [$item->getName() => $item->isPublic() ? optional($this->getDocBlock($item))->getTag('var') : null];
-        })->filter(function ($item) {
-            return !is_null($item) && !$this->isPrimitive($item);
-        })->toArray();
+        return collect($this->getReflectionProperties())->mapWithKeys(function (ReflectionProperty $item) {
+            return [$item->getName() => new AttributeDefinition($item)];
+        });
     }
 
     /**
      * @return ReflectionProperty[]
      * @throws ReflectionException
      */
-    protected function getReplectionProperties()
+    protected function getReflectionProperties()
     {
         return (new ReflectionClass($this))->getProperties();
     }
@@ -266,9 +268,65 @@ abstract class DataTransferItem implements Arrayable, Jsonable
         return $attribute->isPrivate();
     }
 
+    /**
+     * @param string $key
+     * @param null $default
+     *
+     * @return mixed
+     */
     protected function config(string $key, $default = null)
     {
         return Config::get("datatransfer.{$key}", $default);
+    }
+
+    /**
+     * @param AttributeDefinition $item
+     * @param $value
+     *
+     * @return bool
+     */
+    protected function checkType(AttributeDefinition $item, $value)
+    {
+        $should = $item->var;
+        $is = gettype($value);
+        $all = $this->config('primitives');
+
+        if (!in_array($should, $all) || $should === 'mixed' || $is === 'unknown type') {
+            return true;
+        }
+
+        switch ($should) {
+            case 'bool':
+            case 'boolean':
+                return is_bool($value);
+
+            case 'string':
+                return is_string($value);
+
+            case 'int':
+            case 'integer':
+                return is_int($value);
+
+            case 'float':
+            case 'double':
+                return is_float($value);
+
+            case 'array':
+                return is_array($value);
+
+            case 'object':
+                return is_object($value);
+
+            case 'callable':
+                return is_callable($value);
+
+            case 'resource':
+                return is_resource($value);
+
+            default:
+                // maybe PHP adds types in the future, return true to not break it
+                return true;
+        }
     }
 
     /**
@@ -285,5 +343,14 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     protected function useSetter()
     {
         return $this->config('use_setter', false);
+    }
+
+    /**
+     * @param $strict
+     * @return bool
+     */
+    protected function strict($strict)
+    {
+        return $strict || $this->config('strict');
     }
 }
