@@ -46,9 +46,8 @@ class MakeCollection extends Command
                 $path = $generator->filePath();
                 $generator->storeFile($path, $content);
             }
-            else {
-                $generator->useItem();
-            }
+
+            $generator->useItem();
         }
 
         $generator->type('collection');
