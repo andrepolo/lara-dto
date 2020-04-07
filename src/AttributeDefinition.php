@@ -2,6 +2,7 @@
 
 namespace AndrePolo\DataTransfer;
 
+use Illuminate\Contracts\Container\BindingResolutionException;
 use kamermans\Reflection\DocBlock;
 use ReflectionProperty;
 
@@ -39,7 +40,7 @@ class AttributeDefinition extends DataTransferItem
     /**
      * AttributeDefinition constructor.
      * @param ReflectionProperty $item
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
+     * @throws BindingResolutionException
      */
     public function __construct(ReflectionProperty $item)
     {

@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": "^7.2.5",
         "illuminate/support": "^7.4",
         "kamermans/docblock-reflection": "^1.0",
         "ext-json": "*"

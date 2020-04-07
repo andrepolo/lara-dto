@@ -5,6 +5,7 @@ namespace AndrePolo\DataTransfer\Tests;
 use AndrePolo\DataTransfer\DataTransferItem;
 use AndrePolo\DataTransfer\Exceptions\TypeMismatchException;
 use Illuminate\Support\Arr;
+use ReflectionException;
 
 /**
  * Class DataTransferItemTest
@@ -14,7 +15,7 @@ class DataTransferItemTest extends TestCase
 {
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function to_array_method_returns_an_array()
     {
@@ -25,7 +26,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function to_array_method_returns_public_properties_only()
     {
@@ -37,7 +38,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function to_json_returns_a_string()
     {
@@ -48,7 +49,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function to_array_returns_given_values()
     {
@@ -80,7 +81,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function from_array_uses_item_full_qualified_class_name()
     {
@@ -101,7 +102,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function from_array_uses_item_aliased_class_name()
     {
@@ -125,7 +126,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function custom_setters_are_used_with_to_array()
     {
@@ -149,7 +150,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function custom_setters_are_not_used_with_to_array_when_config_is_set_to_false()
     {
@@ -169,7 +170,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function custom_getter_is_used_when_config_is_set_to_true()
     {
@@ -195,7 +196,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function handling_json_creates_proper_item()
     {
@@ -217,7 +218,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function schema_contains_the_correct_properties()
     {
@@ -263,7 +264,7 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function schema_contains_non_public_properties_as_well()
     {
@@ -277,9 +278,9 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function from_array_works_correct_without_doc_blocks()
+    public function from_array_works_correctly_without_doc_blocks()
     {
         $item = new ExampleWithoutDocBlocks();
 
@@ -301,9 +302,9 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
-    public function from_array_works_correct_without_doc_blocks_in_strict_mode()
+    public function from_array_works_correctly_without_doc_blocks_in_strict_mode()
     {
         $item = new ExampleWithEmptyDocBlocks();
 
@@ -325,8 +326,9 @@ class DataTransferItemTest extends TestCase
 
     /**
      * @test
+     * @throws ReflectionException
      */
-    public function an_excetion_is_thrown_when_data_type_not_match()
+    public function an_exception_is_thrown_when_data_type_does_not_match()
     {
         try {
             $item = new ExampleTransferItem();

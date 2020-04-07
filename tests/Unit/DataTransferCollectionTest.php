@@ -25,7 +25,7 @@ class DataTransferCollectionTest extends TestCase
         $first = $collection->first();
         $this->assertNull($first->nullProperty);
         $this->assertEquals('string one', $first->stringProperty);
-        $this->assertEquals(['foo1','bar1'], $first->arrayProperty);
+        $this->assertEquals(['foo1', 'bar1'], $first->arrayProperty);
     }
 
     /**
@@ -44,7 +44,7 @@ class DataTransferCollectionTest extends TestCase
         $first = $collection->first();
         $this->assertNull($first->nullProperty);
         $this->assertEquals('string one', $first->stringProperty);
-        $this->assertEquals(['foo1','bar1'], $first->arrayProperty);
+        $this->assertEquals(['foo1', 'bar1'], $first->arrayProperty);
     }
 
     /**
@@ -63,7 +63,7 @@ class DataTransferCollectionTest extends TestCase
         $first = $collection->first();
         $this->assertNull($first->nullProperty);
         $this->assertEquals('string one', $first->stringProperty);
-        $this->assertEquals(['foo1','bar1'], $first->arrayProperty);
+        $this->assertEquals(['foo1', 'bar1'], $first->arrayProperty);
     }
 
     /**
@@ -89,23 +89,23 @@ class DataTransferCollectionTest extends TestCase
     {
         return [
             [
-                'nullProperty' => null,
+                'nullProperty'   => null,
                 'stringProperty' => 'string one',
-                'arrayProperty' => [
+                'arrayProperty'  => [
                     'foo1', 'bar1'
                 ],
             ],
             [
-                'nullProperty' => null,
+                'nullProperty'   => null,
                 'stringProperty' => 'string two',
-                'arrayProperty' => [
+                'arrayProperty'  => [
                     'foo2', 'bar2'
                 ],
             ],
             [
-                'nullProperty' => null,
+                'nullProperty'   => null,
                 'stringProperty' => 'string three',
-                'arrayProperty' => [
+                'arrayProperty'  => [
                     'foo3', 'bar3'
                 ],
             ]

@@ -63,6 +63,6 @@ class MakeCollection extends Command
 
         $path = $generator->filePath();
 
-         return $generator->storeFile($path, $content) ? 0 : 1;
+        return $generator->storeFile($path, $content) ? 0 : 1;
     }
 }

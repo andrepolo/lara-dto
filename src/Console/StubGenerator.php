@@ -116,6 +116,7 @@ class StubGenerator
 
     /**
      * @param $file
+     *
      * @return string
      */
     public function prepareContent($file)
@@ -132,7 +133,6 @@ class StubGenerator
     }
 
     /**
-     * @param string $classname
      */
     public function useItem()
     {
@@ -142,6 +142,7 @@ class StubGenerator
     /**
      * @param $path
      * @param $content
+     *
      * @return bool|int
      */
     public function storeFile($path, $content)
@@ -165,7 +166,6 @@ class StubGenerator
 
     /**
      * @param $content
-     * @param $classname
      * @return mixed
      */
     protected function replaceVars($content)

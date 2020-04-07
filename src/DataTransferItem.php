@@ -9,7 +9,8 @@ use Illuminate\{Contracts\Container\BindingResolutionException,
     Support\Arr,
     Support\Collection,
     Support\Facades\Config,
-    Support\Str};
+    Support\Str
+};
 use kamermans\Reflection\DocBlock;
 use ReflectionClass, ReflectionException, ReflectionProperty;
 
@@ -27,16 +28,17 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     {
         return $this->getAttributes()->filter(function (AttributeDefinition $item) {
             return $item->access === 'public';
-        })->mapWithKeys(function(AttributeDefinition $item) {
+        })->mapWithKeys(function (AttributeDefinition $item) {
             return [$item->name => !is_null($item->class) ? $item->class->toArray() : $this->getAttribute($item->name)];
         })->toArray();
     }
 
     /**
      * @param array $data
+     * @param null $strict
+     *
      * @return $this
      * @throws ReflectionException
-     * @throws TypeMismatchException
      */
     public function fromArray(array $data, $strict = null)
     {
@@ -48,7 +50,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
             $attribute = Arr::get($attributes, $name);
 
             if ($this->strict($strict) && !$this->checkType($attribute, $value)) {
-                throw new TypeMismatchException($attribute->var . ' does not match given type \'' . gettype($value) .'\'');
+                throw new TypeMismatchException($attribute->var . ' does not match given type \'' . gettype($value) . '\'');
             }
 
             if (!is_null($attribute->class)) {
@@ -77,7 +79,6 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      *
      * @return DataTransferItem
      * @throws ReflectionException
-     * @throws TypeMismatchException
      */
     public function fromJson($json)
     {
@@ -99,7 +100,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
                 return $item->access === 'public';
             });
         }
-        return $attributes->mapWithKeys(function(AttributeDefinition $item) {
+        return $attributes->mapWithKeys(function (AttributeDefinition $item) {
             $key = !is_null($item->class) ? get_class($item->class) . ': ' . $item->name : $item->name;
             $schema = !is_null($item->class) ? $item->class->schema() : $item->var;
 
@@ -172,7 +173,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
      * @param string $name
      * @param $value
      *
-     * @return |null
+     * @return null|mixed
      * @throws ReflectionException
      */
     protected function setAttribute(string $name, $value)
@@ -259,6 +260,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
     /**
      * @param string $name
      *
+     * @return bool
      * @throws ReflectionException
      */
     protected function attributeIsPrivate(string $name)
