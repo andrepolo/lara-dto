@@ -80,6 +80,14 @@ abstract class DataTransferCollection implements Arrayable, Jsonable
     }
 
     /**
+     * @return DataTransferItem
+     */
+    public function last()
+    {
+        return Arr::last($this->items);
+    }
+
+    /**
      * @return int
      */
     public function count()

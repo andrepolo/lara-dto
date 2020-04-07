@@ -26,6 +26,12 @@ class DataTransferCollectionTest extends TestCase
         $this->assertNull($first->nullProperty);
         $this->assertEquals('string one', $first->stringProperty);
         $this->assertEquals(['foo1', 'bar1'], $first->arrayProperty);
+
+        /** @var ExampleTransferItem $first */
+        $last = $collection->last();
+        $this->assertNull($last->nullProperty);
+        $this->assertEquals('string three', $last->stringProperty);
+        $this->assertEquals(['foo3', 'bar3'], $last->arrayProperty);
     }
 
     /**
