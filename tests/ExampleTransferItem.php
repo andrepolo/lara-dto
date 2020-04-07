@@ -18,12 +18,12 @@ class ExampleTransferItem extends DataTransferItem
     /**
      * @var string
      */
-    public string $stringProperty;
+    public $stringProperty;
 
     /**
      * @var array
      */
-    public array $arrayProperty;
+    public $arrayProperty;
 
     /**
      * @var \AndrePolo\DataTransfer\Tests\ExampleTestTransferItem
