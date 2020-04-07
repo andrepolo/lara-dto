@@ -33,7 +33,7 @@ class MakeCollection extends Command
      */
     public function handle()
     {
-        $generator = new StubGenerator();
+        $generator = new ClassGenerator();
 
         if ($this->option('item')) {
             $generator->type('item');

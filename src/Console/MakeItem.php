@@ -30,7 +30,7 @@ class MakeItem extends Command
 
     public function handle()
     {
-        $generator = new StubGenerator();
+        $generator = new ClassGenerator();
 
         $generator->name($this->argument('name'));
         $generator->type('item');

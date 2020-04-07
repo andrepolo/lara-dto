@@ -6,10 +6,10 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 /**
- * Class StubGenerator
+ * Class ClassGenerator
  * @package AndrePolo\DataTransfer\Console
  */
-class StubGenerator
+class ClassGenerator
 {
     /**
      * @var string
