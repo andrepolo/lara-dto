@@ -55,6 +55,12 @@ class StubGenerator
      */
     public function name($name)
     {
+        if (strpos($name, '\\')) {
+            $parts = explode('\\', $name);
+            $name = array_pop($parts);
+            $this->prepareNamespace(implode('\\', $parts));
+        }
+
         $this->classname = ucfirst($name);
         $this->filename = $this->classname;
     }
@@ -127,9 +133,13 @@ class StubGenerator
     /**
      * @return void
      */
-    public function prepareNamespace()
+    public function prepareNamespace($additional = null)
     {
         $this->namespace = Arr::get($this->config, 'class_namespace', 'App\\DataTransfer');
+
+        if (!is_null($additional)) {
+            $this->namespace .= '\\' . $additional;
+        }
     }
 
     /**
