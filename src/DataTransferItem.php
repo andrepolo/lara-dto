@@ -21,6 +21,21 @@ use ReflectionClass, ReflectionException, ReflectionProperty;
 abstract class DataTransferItem implements Arrayable, Jsonable
 {
     /**
+     * DataTransferItem constructor.
+     *
+     * @param array $data
+     * @param bool $strict
+     *
+     * @throws ReflectionException
+     */
+    public function __construct(array $data = null, bool $strict = false)
+    {
+        if (!is_null($data)) {
+            $this->fromArray($data, $strict);
+        }
+    }
+
+    /**
      * @return array
      * @throws ReflectionException
      */
@@ -35,12 +50,12 @@ abstract class DataTransferItem implements Arrayable, Jsonable
 
     /**
      * @param array $data
-     * @param null $strict
+     * @param bool $strict
      *
      * @return $this
      * @throws ReflectionException
      */
-    public function fromArray(array $data, $strict = null)
+    public function fromArray(array $data, $strict = false)
     {
         /* @var AttributeDefinition[] $attributes */
         $attributes = $this->getAttributes();
