@@ -60,7 +60,7 @@ return [
      |-------------------------------------------------------------------------
      | Strict
      |-------------------------------------------------------------------------
-     | This option indicates whether filing items from array or json should
+     | This option indicates whether filling items from array or json should
      | only be possible when the corresponding values match to what is defined
      | in the doc block
      |
