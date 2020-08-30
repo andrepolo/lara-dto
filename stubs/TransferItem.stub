@@ -1,0 +1,10 @@
+<?php
+
+namespace _namespace_;
+
+use AndrePolo\DataTransfer\DataTransferItem;
+
+class _classname_ extends DataTransferItem
+{
+    // add your properties here
+}
