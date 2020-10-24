@@ -1,6 +1,6 @@
 <?php
 
-namespace AndrePolo\DataTransfer;
+namespace AndrePolo\LaraDto;
 
 use Illuminate\Contracts\Container\BindingResolutionException;
 use kamermans\Reflection\DocBlock;
@@ -8,7 +8,7 @@ use ReflectionProperty;
 
 /**
  * Class AttributeDefinition
- * @package AndrePolo\DataTransfer
+ * @package AndrePolo\LaraDto
  */
 class AttributeDefinition extends DataTransferItem
 {

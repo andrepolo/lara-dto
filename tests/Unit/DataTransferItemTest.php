@@ -1,15 +1,15 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
-use AndrePolo\DataTransfer\DataTransferItem;
-use AndrePolo\DataTransfer\Exceptions\TypeMismatchException;
+use AndrePolo\LaraDto\DataTransferItem;
+use AndrePolo\LaraDto\Exceptions\TypeMismatchException;
 use Illuminate\Support\Arr;
 use ReflectionException;
 
 /**
  * Class DataTransferItemTest
- * @package AndrePolo\DataTransfer\Tests\Unit
+ * @package AndrePolo\LaraDto\Tests\Unit
  */
 class DataTransferItemTest extends TestCase
 {
@@ -237,7 +237,7 @@ class DataTransferItemTest extends TestCase
         $this->assertArrayHasKey('mapped', $schema);
         $this->assertEquals('array', Arr::get($schema, 'mapped'));
 
-        $key = 'AndrePolo\DataTransfer\Tests\ExampleTestTransferItem: fqcnItem';
+        $key = 'AndrePolo\LaraDto\Tests\ExampleTestTransferItem: fqcnItem';
         $this->assertArrayHasKey($key, $schema);
         $fqcnItem = Arr::get($schema, $key);
         $this->assertArrayHasKey('a', $fqcnItem);
@@ -247,7 +247,7 @@ class DataTransferItemTest extends TestCase
         $this->assertArrayHasKey('c', $fqcnItem);
         $this->assertEquals('array', Arr::get($fqcnItem, 'c'));
 
-        $key = 'AndrePolo\DataTransfer\Tests\ExampleTestTransferItem: classNameItem';
+        $key = 'AndrePolo\LaraDto\Tests\ExampleTestTransferItem: classNameItem';
         $this->assertArrayHasKey($key, $schema);
         $classNameItem = Arr::get($schema, $key);
         $this->assertArrayHasKey('a', $classNameItem);

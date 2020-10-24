@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
-use AndrePolo\DataTransfer\DataTransferServiceProvider;
+use AndrePolo\LaraDto\DataTransferServiceProvider;
 
 /**
  * Class TestCase
- * @package AndrePolo\DataTransfer\Tests
+ * @package AndrePolo\LaraDto\Tests
  */
 class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -19,7 +19,7 @@ class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        config()->set('datatransfer.class_namespace', 'AndrePolo\\DataTransfer');
+        config()->set('datatransfer.class_namespace', 'AndrePolo\\LaraDto');
     }
 
     /**

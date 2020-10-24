@@ -1,6 +1,6 @@
 <?php
 
-namespace AndrePolo\DataTransfer;
+namespace AndrePolo\LaraDto;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -8,7 +8,7 @@ use Illuminate\Support\Arr;
 
 /**
  * Class DataTransferItemCollection
- * @package AndrePolo\DataTransfer
+ * @package AndrePolo\LaraDto
  */
 abstract class DataTransferCollection implements Arrayable, Jsonable
 {

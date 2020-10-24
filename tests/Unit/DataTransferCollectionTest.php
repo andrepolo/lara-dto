@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
 use Illuminate\Support\Arr;
 
 /**
  * Class DataTransferCollectionTest
- * @package AndrePolo\DataTransfer\Tests
+ * @package AndrePolo\LaraDto\Tests
  */
 class DataTransferCollectionTest extends TestCase
 {

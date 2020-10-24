@@ -1,13 +1,13 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Console;
+namespace AndrePolo\LaraDto\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 /**
  * Class MakeItem
- * @package AndrePolo\DataTransfer\Console
+ * @package AndrePolo\LaraDto\Console
  */
 class MakeItem extends Command
 {
@@ -16,7 +16,7 @@ class MakeItem extends Command
      *
      * @var string
      */
-    protected $signature = 'datatransfer:make:item 
+    protected $signature = 'ap-dto:make:item 
                             {name : the name for your DataTransferItem class} 
                             {--f|force}';
 

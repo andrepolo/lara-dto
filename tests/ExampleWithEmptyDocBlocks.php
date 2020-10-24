@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
-use AndrePolo\DataTransfer\DataTransferItem;
+use AndrePolo\LaraDto\DataTransferItem;
 
 /**
  * Class ExampleWithoutDocBlocks
- * @package AndrePolo\DataTransfer\Tests
+ * @package AndrePolo\LaraDto\Tests
  */
 class ExampleWithEmptyDocBlocks extends DataTransferItem
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
-use AndrePolo\DataTransfer\DataTransferItem;
+use AndrePolo\LaraDto\DataTransferItem;
 
 /**
  * Class TestTransferItem
- * @package AndrePolo\DataTransfer
+ * @package AndrePolo\LaraDto
  */
 class ExampleTransferItem extends DataTransferItem
 {
@@ -26,7 +26,7 @@ class ExampleTransferItem extends DataTransferItem
     public $arrayProperty;
 
     /**
-     * @var \AndrePolo\DataTransfer\Tests\ExampleTestTransferItem
+     * @var \AndrePolo\LaraDto\Tests\ExampleTestTransferItem
      */
     public $fqcnItem;
 

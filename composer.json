@@ -1,5 +1,5 @@
 {
-    "name": "andrepolo/laravel-datatransfer",
+    "name": "andrepolo/laravel-easy-dto",
     "description": "Add data transfer objects to your Laravel app to transfer structured data",
     "license": "MIT",
     "authors": [
@@ -20,18 +20,18 @@
     },
     "autoload": {
         "psr-4": {
-            "AndrePolo\\DataTransfer\\": "src"
+            "AndrePolo\\LaraDto\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "AndrePolo\\DataTransfer\\Tests\\": "tests"
+            "AndrePolo\\LaraDto\\Tests\\": "tests"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "AndrePolo\\DataTransfer\\DataTransferServiceProvider"
+                "AndrePolo\\LaraDto\\DataTransferServiceProvider"
             ]
         }
     }

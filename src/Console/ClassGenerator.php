@@ -1,13 +1,13 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Console;
+namespace AndrePolo\LaraDto\Console;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 /**
  * Class ClassGenerator
- * @package AndrePolo\DataTransfer\Console
+ * @package AndrePolo\LaraDto\Console
  */
 class ClassGenerator
 {
@@ -135,7 +135,7 @@ class ClassGenerator
      */
     public function prepareNamespace($additional = null)
     {
-        $this->namespace = Arr::get($this->config, 'class_namespace', 'App\\DataTransfer');
+        $this->namespace = Arr::get($this->config, 'class_namespace', 'App\\LaraDto');
 
         if (!is_null($additional)) {
             $this->namespace .= '\\' . $additional;

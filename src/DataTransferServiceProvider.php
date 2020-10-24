@@ -1,6 +1,6 @@
 <?php
 
-namespace AndrePolo\DataTransfer;
+namespace AndrePolo\LaraDto;
 
 use AndrePolo\{DataTransfer\Console\MakeItem,
     DataTransfer\Console\MakeCollection,
@@ -10,7 +10,7 @@ use Illuminate\Support\ServiceProvider;
 
 /**
  * Class DataTransferServiceProvider
- * @package AndrePolo\DataTransfer
+ * @package AndrePolo\LaraDto
  */
 class DataTransferServiceProvider extends ServiceProvider
 {

@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Console;
+namespace AndrePolo\LaraDto\Console;
 
 use Illuminate\Console\Command;
 
 /**
  * Class PublishConfig
- * @package AndrePolo\DataTransfer\Console
+ * @package AndrePolo\LaraDto\Console
  */
 class PublishConfig extends Command
 {
@@ -15,7 +15,7 @@ class PublishConfig extends Command
      *
      * @var string
      */
-    protected $signature = 'datatransfer:publish:config';
+    protected $signature = 'ap-dto:publish:config';
 
     /**
      * The console command description.

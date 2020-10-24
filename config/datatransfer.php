@@ -37,7 +37,7 @@ return [
      | handled as DataTransferItem or DatatransferCollection classes'.
      |
      | @see property declaration with @var in PHP-Doc-Block or checkout the
-     | \AndrePolo\DataTransfer\Tests\ExampleTransferItem.php
+     | \AndrePolo\LaraDto\Tests\ExampleTransferItem.php
      |
      */
 
