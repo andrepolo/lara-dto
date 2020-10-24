@@ -1,8 +1,8 @@
 <?php
 
-namespace AndrePolo\DataTransfer;
+namespace AndrePolo\LaraDto;
 
-use AndrePolo\DataTransfer\Exceptions\TypeMismatchException;
+use AndrePolo\LaraDto\Exceptions\TypeMismatchException;
 use Illuminate\{Contracts\Container\BindingResolutionException,
     Contracts\Support\Arrayable,
     Contracts\Support\Jsonable,
@@ -16,7 +16,7 @@ use ReflectionClass, ReflectionException, ReflectionProperty;
 
 /**
  * Class DataTransferItem
- * @package AndrePolo\DataTransfer
+ * @package AndrePolo\LaraDto
  */
 abstract class DataTransferItem implements Arrayable, Jsonable
 {

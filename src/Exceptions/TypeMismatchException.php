@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Exceptions;
+namespace AndrePolo\LaraDto\Exceptions;
 
 use Exception;
 
 /**
  * Class TypeMismatchException
- * @package AndrePolo\DataTransfer\Exceptions
+ * @package AndrePolo\LaraDto\Exceptions
  */
 class TypeMismatchException extends Exception
 {

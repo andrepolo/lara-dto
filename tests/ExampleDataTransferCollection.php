@@ -1,12 +1,12 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Tests;
+namespace AndrePolo\LaraDto\Tests;
 
-use AndrePolo\DataTransfer\DataTransferCollection;
+use AndrePolo\LaraDto\DataTransferCollection;
 
 /**
  * Class ExampleDataTransferCollection
- * @package AndrePolo\DataTransfer\Tests
+ * @package AndrePolo\LaraDto\Tests
  */
 class ExampleDataTransferCollection extends DataTransferCollection
 {

@@ -1,13 +1,13 @@
 <?php
 
-namespace AndrePolo\DataTransfer\Console;
+namespace AndrePolo\LaraDto\Console;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 /**
  * Class MakeItemCollection
- * @package AndrePolo\DataTransfer\Console
+ * @package AndrePolo\LaraDto\Console
  */
 class MakeCollection extends Command
 {
@@ -16,7 +16,7 @@ class MakeCollection extends Command
      *
      * @var string
      */
-    protected $signature = 'datatransfer:make:collection 
+    protected $signature = 'ap-dto:make:collection 
                             {name : the name for your DataTransferCollection class} 
                             {--i|item : If you pass this option, a DataTransferItem is also created}
                             {--f|force}';

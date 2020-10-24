@@ -2,7 +2,7 @@
 
 namespace _namespace_;
 
-use AndrePolo\DataTransfer\DataTransferItem;
+use AndrePolo\LaraDto\DataTransferItem;
 
 class _classname_ extends DataTransferItem
 {

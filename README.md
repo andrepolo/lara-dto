@@ -1,11 +1,11 @@
-# laravel-easy-dto
+# lara-dto
 Add data transfer objects to your Laravel app to transfer structured data
 
 ## Installation
 
 To install the package to your laravel app, just require it using composer:
 ```
-composer require andrepolo/laravel-easy-dto
+composer require andrepolo/lara-dto
 ```
 
 To modify the config file, for example to change the default namespace of your 
@@ -15,7 +15,7 @@ php artisan vendor:publish --tag=datatransfer-config
 ```
 or use the command that comes with the package:
 ```
-php artisan datatransfer:publish:config
+php artisan ap-dto:publish:config
 ```
 After executing this you will find a new config file in your `app/config` directory: `datatransfer.php`
 
@@ -23,7 +23,7 @@ After executing this you will find a new config file in your `app/config` direct
 #### Creating a DataTransferItem class
 The recommended way is to use the artisan command that ships with this package:
 ```
-php artisan datatransfer:make:item
+php artisan ap-dto:make:item
 ```
 This command will create a new `DataTransferItem` with the given name and store it in the 
 namespace which is defined in the config file `datatransfer.php` in the namespace section.
@@ -39,7 +39,7 @@ This is how this class would look like if you used the name `MyFirstDatatransfer
 
 namespace App\DataTransfer;
 
-use AndrePolo\DataTransfer\DataTransferItem;
+use AndrePolo\LaraDto\DataTransferItem;
 
 class MyFirstDatatransferItem extends DataTransferItem
 {
@@ -48,7 +48,7 @@ class MyFirstDatatransferItem extends DataTransferItem
 ```
 
 Another way is to simply create a new class by coppying the above example. This class has to extend 
-`Andrepolo\DataTransfer\DataTransferItem`
+`AndrePolo\LaraDto\DataTransferItem`
 
 Create a new Instance of a datatransfer class
 ```php
@@ -64,7 +64,7 @@ $item = app()->make('class_alias');
 #### Creating a DataTransferCollection class
 Also, use the command from this package:
 ```
-php artisan datatransfer:make:collection
+php artisan ap-dto:make:collection
 ```
 This command is creating a `DataTransferCollection` with the given name. Here you 
 have the option `-f` again to force the command to create the new class. 
@@ -82,7 +82,7 @@ This is how the class would look like:
 
 namespace App\DataTransfer;
 
-use AndrePolo\DataTransfer\DataTransferCollection;
+use AndrePolo\LaraDto\DataTransferCollection;
 
 class MyFirstDatatransferCollection extends DataTransferCollection
 {
