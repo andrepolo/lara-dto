@@ -2,10 +2,10 @@
 
 namespace AndrePolo\LaraDto;
 
-use AndrePolo\{DataTransfer\Console\MakeItem,
-    DataTransfer\Console\MakeCollection,
-    DataTransfer\Console\PublishConfig,
-    DataTransfer\Tests\ExampleTestTransferItem};
+use AndrePolo\{LaraDto\Console\MakeItem,
+    LaraDto\Console\MakeCollection,
+    LaraDto\Console\PublishConfig,
+    LaraDto\Tests\ExampleTestTransferItem};
 use Illuminate\Support\ServiceProvider;
 
 /**
