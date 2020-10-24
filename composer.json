@@ -1,5 +1,5 @@
 {
-    "name": "andrepolo/laravel-easy-dto",
+    "name": "andrepolo/lara-dto",
     "description": "Add data transfer objects to your Laravel app to transfer structured data",
     "license": "MIT",
     "authors": [
