@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "illuminate/support": "^9.17",
+        "illuminate/support": "^9.0",
         "kamermans/docblock-reflection": "~1.0",
         "ext-json": "*"
     },
