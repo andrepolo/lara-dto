@@ -55,6 +55,12 @@ class ClassGenerator
      */
     public function name($name)
     {
+        if (strpos($name, '/')) {
+            $parts = explode('/', $name);
+            $name = array_pop($parts);
+            $this->prepareNamespace(implode('\\', $parts));
+        }
+
         if (strpos($name, '\\')) {
             $parts = explode('\\', $name);
             $name = array_pop($parts);
