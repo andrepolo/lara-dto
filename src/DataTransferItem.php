@@ -44,7 +44,8 @@ abstract class DataTransferItem implements Arrayable, Jsonable
         return $this->getAttributes()->filter(function (AttributeDefinition $item) {
             return $item->access === 'public';
         })->mapWithKeys(function (AttributeDefinition $item) {
-            return [$item->name => !is_null($item->class) ? $item->class->toArray() : $this->getAttribute($item->name)];
+            $attribute = $this->getAttribute($item->name);
+            return [$item->name => is_object($attribute) ? $attribute->toArray() : $attribute];
         })->toArray();
     }
 

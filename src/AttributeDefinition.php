@@ -46,8 +46,7 @@ class AttributeDefinition extends DataTransferItem
     {
         $this->name = $item->getName();
         $this->access = $this->getAccessValue($item);
-        $type = optional($item->getType());
-        $this->var = $type->getName() ?? $this->getVarValue($item);
+        $this->var = $item->getType() ?? $this->getVarValue($item);
         $this->class = !$this->isPrimitive($this->var) ? $this->resolveClass($this->var) : null;
     }
 
