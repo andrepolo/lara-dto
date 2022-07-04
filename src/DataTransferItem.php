@@ -45,7 +45,15 @@ abstract class DataTransferItem implements Arrayable, Jsonable
             return $item->access === 'public';
         })->mapWithKeys(function (AttributeDefinition $item) {
             $attribute = $this->getAttribute($item->name);
-            return [$item->name => is_object($attribute) ? $attribute->toArray() : $attribute];
+
+            if (!is_null($item->class) && is_object($attribute)) {
+                return [$item->name => $attribute->toArray()];
+            }
+            elseif (!is_null($item->class) && is_null($attribute)) {
+                return [$item->name => $item->class->toArray()];
+            }
+
+            return [$item->name => $attribute];
         })->toArray();
     }
 
@@ -69,7 +77,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
                 throw new TypeMismatchException($attribute->var . ' does not match given type \'' . gettype($value) . '\'');
             }
 
-            if (!is_null($attribute->class)) {
+            if (!is_null($attribute) && !is_null($attribute->class)) {
                 $value = $attribute->class->fromArray($value, $strict);
             }
 
