@@ -77,7 +77,7 @@ abstract class DataTransferItem implements Arrayable, Jsonable
                 throw new TypeMismatchException($attribute->var . ' does not match given type \'' . gettype($value) . '\'');
             }
 
-            if (!is_null($attribute) && !is_null($attribute->class)) {
+            if (!is_null($attribute) && !is_null($attribute->class) && is_array($value)) {
                 $value = $attribute->class->fromArray($value, $strict);
             }
 
