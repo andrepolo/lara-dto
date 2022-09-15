@@ -106,6 +106,14 @@ abstract class DataTransferCollection implements Arrayable, Jsonable
     }
 
     /**
+     * @return array
+     */
+    public function schema()
+    {
+        return [];
+    }
+
+    /**
      * @param DataTransferItem $item
      *
      * @return $this
